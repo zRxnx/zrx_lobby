@@ -34,7 +34,7 @@ An advanced lobby system for FiveM
 
 ## Preview
 
-### [Video]()
+### [Video](https://youtu.be/EgY8hDl3vp0?si=0dRAZqDPRMsyBbdl)
 
 ![Discord Log](https://i.imgur.com/TDfftS2.png)
 ![Main Page](https://i.imgur.com/P65vJDk.png)
