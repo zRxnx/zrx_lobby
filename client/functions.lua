@@ -612,7 +612,7 @@ HideHud = function(bool)
                     HideHudComponentThisFrame(i)
                 end
 
-                Wait()
+                Wait(0)
             end
         end)
     else
@@ -652,7 +652,7 @@ CameraToPlayer = function(x, y, z, h)
     DestroyCam(groundCam, true)
     DestroyCam(groundCam2, true)
 
-    SetEntityCoords(cache.ped, x, y, z)
+    SetEntityCoords(cache.ped, x, y, z, false, false, false, false)
     SetEntityHeading(cache.ped, h)
     HideHud(false)
 end

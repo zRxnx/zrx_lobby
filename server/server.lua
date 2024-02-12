@@ -1,3 +1,4 @@
+---@diagnostic disable: cast-local-type, need-check-nil, param-type-mismatch
 CORE = exports.zrx_utility:GetUtility()
 PLAYERS, PLAYER_CACHE, PENDING_INVITE, COOLDOWN, LOBBY, LOADED, CanLoad = {}, {}, {}, {}, {}, {}, false
 local TriggerClientEvent = TriggerClientEvent
@@ -6,10 +7,11 @@ local GetCurrentResourceName = GetCurrentResourceName
 local type = type
 
 RegisterNetEvent('zrx_lobby:server:onPlayerLoaded', function()
-    local player = source
-    if LOADED[player] then
+    if LOADED[source] then
         return Config.PunishPlayer(player, 'Tried to trigger "zrx_lobby:server:onPlayerLoaded"')
     end
+
+    local player = source
     LOADED[player] = true
     PLAYER_CACHE[player] = CORE.Server.GetPlayerCache(player)
 
@@ -169,7 +171,7 @@ RegisterNetEvent('zrx_lobby:server:changeSetting', function(action, data)
             end
 
             SetRoutingBucketPopulationEnabled(LOBBY[PLAYER_CACHE[source].discord].lobby, true)
-            CORE.Bridge.notification(source, Strigns.change_npc_true)
+            CORE.Bridge.notification(source, Strings.change_npc_true)
         elseif data == 'disable' then
             LOBBY[PLAYER_CACHE[source].discord].options.npcs = false
 

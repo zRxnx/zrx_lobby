@@ -6,9 +6,11 @@ CORE.Client.RegisterKeyMappingCommand(Config.Command, Strings.cmd_desc, Config.K
     OpenMainMenu()
 end)
 
-RegisterNetEvent('zrx_lobby:client:openMenu', function()
-    OpenStartMenu()
-end)
+if Config.ShowStartMenu then
+    RegisterNetEvent('zrx_lobby:client:openMenu', function()
+        OpenStartMenu()
+    end)
+end
 
 --| Invite Start
 RegisterNetEvent('zrx_lobby:client:processAction', function(action, data)
