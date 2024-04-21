@@ -8,7 +8,7 @@ local type = type
 
 RegisterNetEvent('zrx_lobby:server:onPlayerLoaded', function()
     if LOADED[source] then
-        return Config.PunishPlayer(player, 'Tried to trigger "zrx_lobby:server:onPlayerLoaded"')
+        return Config.PunishPlayer(source, 'Tried to trigger "zrx_lobby:server:onPlayerLoaded"')
     end
 
     local player = source
