@@ -12,6 +12,12 @@ Config.Menu = {
     postition = 'top-left' --| top-left, top-right, bottom-left or bottom-right
 }
 
+Config.Multichar = {
+    enabled = true,
+
+    event = 'esx:playerLoaded', --| eventname when the char spawns
+}
+
 Config.Coords = {
     PreviewCamera = vector4(700.2692, 1080.7894, 338.5306, -20.0),
     SpawnPoint = vector4(238.5490, -876.3400, 29.4921, 0.0)

@@ -5,7 +5,10 @@ use_experimental_fxv2_oal 'yes'
 
 author 'zRxnx'
 description 'Advanced lobby system'
-version '1.1.1'
+version '1.2.0'
+
+docs 'https://docs.zrxnx.at'
+discord 'https://discord.gg/mcN25FJ33K'
 
 dependencies {
     '/onesync',

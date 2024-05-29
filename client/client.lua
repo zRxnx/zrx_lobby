@@ -1,5 +1,5 @@
 CORE = exports.zrx_utility:GetUtility()
-INVITE, COOLDOWN, LOBBY = false, false, {}
+INVITE, COOLDOWN, LOBBY, CAN_PROCCEED = false, false, {}, false
 local NetworkIsPlayerActive = NetworkIsPlayerActive
 
 CORE.Client.RegisterKeyMappingCommand(Config.Command, Strings.cmd_desc, Config.Key, function()
@@ -9,6 +9,12 @@ end)
 if Config.ShowStartMenu then
     RegisterNetEvent('zrx_lobby:client:openMenu', function()
         OpenStartMenu()
+    end)
+end
+
+if Config.Multichar then
+    RegisterNetEvent(Config.Multichar.event, function()
+        CAN_PROCCEED = true
     end)
 end
 
@@ -39,9 +45,15 @@ end
 --| Invite end
 
 CreateThread(function()
-    lib.waitFor(function()
-        return NetworkIsPlayerActive(cache.playerId)
-    end, 'Timeout', 60000)
+    while not NetworkIsPlayerActive(cache.playerId) do
+        Wait(1000)
+    end
+
+    if Config.Multichar.enabled then
+        while not CAN_PROCCEED do
+            Wait(1000)
+        end
+    end
 
     TriggerServerEvent('zrx_lobby:server:onPlayerLoaded')
 end)
