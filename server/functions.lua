@@ -6,14 +6,37 @@ Function = {
     PlayerLoad = function(player)
         Player(player).state.discord = PLAYER_CACHE[player].discord
         PLAYERS[player] = true
+        local password = CORE.Shared.GeneratePassword(10)
 
-        if not LOBBY[PLAYER_CACHE[player].discord] then
+        local response = MySQL.query.await('SELECT `options` FROM `zrx_lobby` WHERE `discord` = ?', {
+            PLAYER_CACHE[player].discord
+        })
+
+        if response[1] then
+            local options = json.decode(response[1].options)
+
             LOBBY[PLAYER_CACHE[player].discord] = {
                 id = PLAYER_CACHE[player].discord,
                 state = 'online',
                 lobby = player,
                 options = {
-                    password = CORE.Shared.GeneratePassword(10),
+                    password = options.password,
+                    maxPlayers = options.maxPlayers,
+                    npcs = options.npcs
+                }
+            }
+        else
+            password = CORE.Shared.GeneratePassword(10)
+            MySQL.insert.await('INSERT INTO `zrx_lobby` (discord, options) VALUES (?, ?)', {
+                PLAYER_CACHE[player].discord, json.encode({ password = password, maxPlayers = 10, npcs = true})
+            })
+
+            LOBBY[PLAYER_CACHE[player].discord] = {
+                id = PLAYER_CACHE[player].discord,
+                state = 'online',
+                lobby = player,
+                options = {
+                    password = password,
                     maxPlayers = 10,
                     npcs = true
                 }
@@ -31,8 +54,12 @@ Function = {
             CORE.Server.DiscordLog(player, 'SWITCH LOBBY', message, Webhook.Links.switchLobby)
         end
 
-        TriggerClientEvent('zrx_lobby:client:openMenu', player)
-        Function.SetLobby(player, 9999)
+        if Config.ShowStartMenu then
+            TriggerClientEvent('zrx_lobby:client:openMenu', player)
+            Function.SetLobby(player, 9999)
+        else
+            Function.SetLobby(player, player)
+        end
     end,
 
     SetLobby = function(player, lobby)

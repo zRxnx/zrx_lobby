@@ -15,9 +15,9 @@ RegisterNetEvent('zrx_lobby:server:onPlayerLoaded', function()
     LOADED[player] = true
     PLAYER_CACHE[player] = CORE.Server.GetPlayerCache(player)
 
-    lib.waitFor(function()
-        return CanLoad == true
-    end, 'Timeout', 5000)
+    while not CanLoad do
+        Wait(1000)
+    end
 
     Function.PlayerLoad(player)
 end)
@@ -100,6 +100,14 @@ end)
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
 
+    for identifier, data in pairs(LOBBY) do
+        MySQL.update.await('UPDATE zrx_lobby SET options = ? WHERE discord = ?', {
+            json.encode(data.options), identifier
+        })
+    end
+end)
+
+AddEventHandler('txAdmin:events:serverShuttingDown', function(eventData)
     for identifier, data in pairs(LOBBY) do
         MySQL.update.await('UPDATE zrx_lobby SET options = ? WHERE discord = ?', {
             json.encode(data.options), identifier
