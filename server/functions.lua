@@ -58,7 +58,7 @@ Function = {
             TriggerClientEvent('zrx_lobby:client:openMenu', player)
             Function.SetLobby(player, 9999)
         else
-            Function.SetLobby(player, player)
+            Function.SetLobby(player, Config.DefaultLobby == -1 and player or Config.DefaultLobby)
         end
     end,
 

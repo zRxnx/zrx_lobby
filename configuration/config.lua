@@ -6,6 +6,7 @@ Config.Key = 'F7' --| Note: Its a keymapping
 Config.Cooldown = 3 --| Cooldown
 Config.IconColor = 'rgba(173, 216, 230, 1)' --| rgba format
 Config.ShowStartMenu = true --| Show the menu with the spawn selector and so on?
+Config.DefaultLobby = 0 --| 0 = Public | -1 = Player | Other custom
 
 Config.Menu = {
     type = 'context', --| context or menu
